@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+NPM_BIN_PATH = 'npm.cmd'
 
 # Application definition
 
@@ -37,6 +38,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # local app
+    'accounts',
+
+    # third party app
+    'django_browser_reload',
+    'tailwind',
+    'theme'
+]
+
+# tailwind css dependencies
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 MIDDLEWARE = [
@@ -46,6 +61,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django_browser_reload.middleware.BrowserReloadMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 

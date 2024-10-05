@@ -42,7 +42,22 @@ module.exports = {
         // '../../**/*.py'
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors:{
+                primary: "#FF6F00",
+                secondary: "#F2B88A",
+                accent: "#C68839",
+                bg_col: "#EDEDED",
+                font_col: "#212121",
+                success_col: "#00C853",
+                error_col: "#D32F2F",
+                hover_col: "#FF8F00",
+                btn_col: "rgba(255,161,40,0.65)"
+            },
+            fontFamily:{
+                raleway: ["Raleway", 'sans-serif']
+            }
+        },
     },
     plugins: [
         /**

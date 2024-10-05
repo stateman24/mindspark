@@ -56,6 +56,13 @@ module.exports = {
             },
             fontFamily:{
                 raleway: ["Raleway", 'sans-serif']
+            },
+            fontSize:{
+                "h1": '2.25rem',
+                "h2": '1.75rem',
+                "h3": '1.375rem',
+                "body": '1rem',
+                "label": '0.875'
             }
         },
     },

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     {% tailwind_css %}
-    <title>{% block title %}{% endblock %}</title>
+    <title>MindSpark | {% block title %}{% endblock %}</title>
 </head>
 <body class="bg-bg_col font-raleway text-font_col">
     <header class="flex w-full py-[1.31rem] px-[4.25rem] border border-b-primary">
@@ -12,7 +12,9 @@
             <img src="{% static "assets/Group 1.svg" %}" alt="logo">
         </div>
     </header>
-    {% block content %}
-    {% endblock %}
+    <main class="flex justify-center">
+        {% block content %}
+        {% endblock %}
+    </main>
 </body>
 </html>

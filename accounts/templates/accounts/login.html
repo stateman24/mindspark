@@ -5,21 +5,22 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container border border-primary rounded-md mt-[6rem] w-[29.5rem] px-[1.56rem] py-[2.31rem]">
+    <div class="container border border-primary rounded-md w-[29.5rem] px-[1.56rem] py-[1.5rem]">
         <form action="{% url 'accounts:login' %}" method="post">
+        {% csrf_token %}
         <h1 class="font-bold text-h1">Sign In</h1>
-        <div class="flex flex-col mt-[1.5rem]">
+        <div class="flex flex-col mt-[1rem]">
             <label for="email" class="text-body font-normal leading-normal mb-[1rem]">Enter your email</label>
             {{ form.username }}
         </div>
-        <div class="flex flex-col mt-[1.5rem]">
+        <div class="flex flex-col mt-[1rem]">
             <label for="password" class="text-body font-normal leading-normal mb-[1rem]">Enter you password</label>
             {{ form.password }}
         </div>
-        <button type="submit" class="w-full px-auto mt-[2rem] bg-btn_col py-[0.75rem] rounded-md text-white font-normal">Sign In</button>
-        <h2 class="text-center text-font_col opacity-50 font-extrabold mt-[1.5rem]">OR</h2>
+        <button type="submit" class="w-full px-auto mt-[2rem] bg-btn_col py-[0.75rem] rounded-md text-white font-normal hover:bg-hover_col transition-colors duration-300">Sign In</button>
+        <h2 class="text-center text-font_col opacity-50 font-extrabold mt-[1rem]">OR</h2>
         <a href="#">
-            <div class="flex justify-center gap-[0.5rem] align-center mt-[1.5rem] w-full border border-primary text-center py-[0.75rem] rounded-md">
+            <div class="flex justify-center group hover:bg-hover_col transition-colors duration-300 gap-[0.5rem] align-center mt-[1rem] w-full border border-primary text-center py-[0.75rem] rounded-md">
             <svg width="25" height="25" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="flat-color-icons:google">
                     <path id="Vector" d="M15.037 6.69433H14.5V6.66667H8.50001V9.33333H12.2677C11.718 10.8857 10.241 12 8.50001 12C6.29101 12 4.50001 10.209 4.50001 8C4.50001 5.791 6.29101 4 8.50001 4C9.51968 4 10.4473 4.38467 11.1537 5.013L13.0393 3.12733C11.8487 2.01767 10.256 1.33333 8.50001 1.33333C4.81834 1.33333 1.83334 4.31833 1.83334 8C1.83334 11.6817 4.81834 14.6667 8.50001 14.6667C12.1817 14.6667 15.1667 11.6817 15.1667 8C15.1667 7.553 15.1207 7.11667 15.037 6.69433Z" fill="#FFC107"/>
@@ -27,12 +28,16 @@
                     <path id="Vector_4" d="M15.037 6.69433H14.5V6.66666H8.5V9.33333H12.2677C12.0047 10.0721 11.5311 10.7177 10.9053 11.1903L10.9063 11.1897L12.9697 12.9357C12.8237 13.0683 15.1667 11.3333 15.1667 8C15.1667 7.553 15.1207 7.11666 15.037 6.69433Z" fill="#1976D2"/>
                 </g>
             </svg>
-            <p class="font-normal text-center">Continue with Google</p>
+            <p class="font-normal text-center group-hover:text-bg_col">Continue with Google</p>
         </div>
         </a>
-
-        <a href="#">Sign Up</a>
-        <p><a href="#">Forgotten Password?</a></p>
+        <div class="w-[310px] border border-accent opacity-50 mt-[1rem] mx-auto"></div>
+        <a href="#">
+            <div class="flex justify-center gap-[0.5rem] align-center mt-[1rem] group hover:bg-hover_col transition-colors duration-300 w-full border border-primary text-center py-[0.75rem] rounded-md">
+                <p class="font-normal text-center group-hover:text-bg_col">Sign Up</p>
+            </div>
+        </a>
+        <p class="text-center text-base opacity-50 font-semibold underline mt-[1rem] hover:opacity-100"><a href="#">Forgotten Password?</a></p>
     </form>
     </div>
 

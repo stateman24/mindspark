@@ -1,0 +1,9 @@
+{
+  "editor.fontSize": 12,
+  "editor.fontFamily": "Jetbrains Mono Light",
+  "editor.fontVariations": false,
+"editor.letterSpacing": 0.5,
+"terminal.integrated.letterSpacing": 1,
+"editor.lineHeight": 2,
+"editor.suggestLineHeight": 0
+}

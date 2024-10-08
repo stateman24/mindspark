@@ -1,5 +1,5 @@
 .vscode
-
+.vscode/
 ### Django template
 *.log
 *.pot

@@ -23,7 +23,14 @@ class LoginForm(AuthenticationForm):
 
 
 class RegisterUser(forms.ModelForm):
-    password: CharField = forms.CharField(widget=forms.PasswordInput)
+    password: CharField = forms.CharField(widget=forms.PasswordInput(attrs={
+        'id': "password",
+        'class': "border rounded-lg border-primary px-[1rem] cursor-pointer focus:border-hover_col focus:ring-1 focus:ring-primary focus:outline-none"
+    }))
+    email = forms.CharField(widget=forms.TextInput(attrs={
+        'id': "email",
+        'class': "border rounded-lg border-primary px-[1rem] cursor-pointer focus:border-hover_col focus:ring-1 focus:ring-primary focus:outline-none"
+    }))
     
     class Meta:
         model: User = User

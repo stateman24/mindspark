@@ -10,11 +10,11 @@
         {% csrf_token %}
         <h1 class="font-bold text-h1">Sign In</h1>
         <div class="flex flex-col mt-[1rem]">
-            <label for="email" class="text-body font-normal leading-normal mb-[1rem]">Enter your email</label>
+            <label for="email" class="text-body font-normal leading-normal mb-[1rem] ">Enter your email</label>
             {{ form.username }}
         </div>
         <div class="flex flex-col mt-[1rem]">
-            <label for="password" class="text-body font-normal leading-normal mb-[1rem]">Enter you password</label>
+            <label for="password" class="text-body font-normal leading-normal mb-[1rem] ">Enter you password</label>
             {{ form.password }}
         </div>
         <button type="submit" class="w-full px-auto mt-[2rem] bg-btn_col py-[0.75rem] rounded-md text-white font-normal hover:bg-hover_col transition-colors duration-300">Sign In</button>

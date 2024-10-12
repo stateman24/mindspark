@@ -1,4 +1,4 @@
 <p>{{ user.username }}</p>
 <p>Thanks for registering with us, click the link below to activate your 
-    <a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">accounts</a>
+    <a href="http://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}">accounts</a>
 </p>

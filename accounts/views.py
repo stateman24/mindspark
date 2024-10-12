@@ -4,7 +4,8 @@ from django.views.generic import FormView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model
 # imports for email verification
-from django.core.mail import send_mail
+from django.contrib import messages
+from django.core.mail import EmailMessage
 from .token import account_activation_token
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
@@ -27,22 +28,28 @@ class RegisterUser(FormView):
 
     def form_valid(self, form):
         user = form.save(commit=False)
+        user.username = form.cleaned_data["email"]  # set username to email address
         user.is_active = False # deactivate account until email verification
         user.save()
         # send email verification
-        self.send_verification_email(user)
+        self.send_verification_email(user, form.cleaned_data["email"])
         return redirect(self.get_success_url())
     
-    def send_verification_email(self, user):
+    def send_verification_email(self, user, to_email):
         current_site = get_current_site(self.request)
         subject = "Activate your account"
-        message = render_to_string("accounts/activate_email.html", {
-            "user": user,
+        message = render_to_string("activate_email.html", {
+            "user": user.username,
             "domain" : current_site.domain,
             "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-            "token": account_activation_token(user)
+            "token": account_activation_token.make_token(user),
         })
-        send_mail(subject, message, "noreply@mindspark.com", [user.email], fail_silently=True)
+        email = EmailMessage(subject, message, to=[to_email])
+        if email.send():
+            print("Email Sent")
+        else:
+            print("Email not sent")
+        
 
 def activate_account(request, uidb64, token):
     try:

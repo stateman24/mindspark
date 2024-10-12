@@ -13,5 +13,5 @@ urlpatterns: list[Any] = [
     path("logout/", auth_view.LogoutView.as_view(), name="logout"),
     path("signup/", RegisterUser.as_view(), name='signup'),
     path("index/", index, name="index"),
-    path("email_verification/", activate_account, name="activate_account")
+    path("verifyEmail/<uidb64>/<token>/", activate_account, name="activate")
 ]

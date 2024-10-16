@@ -44,8 +44,11 @@ INSTALLED_APPS = [
 
     # third party app
     'django_browser_reload',
+    'django_extensions',
     'tailwind',
-    'theme'
+    'theme',
+    'social_django',
+    'sslserver'
 ]
 
 # tailwind css dependencies
@@ -67,7 +70,10 @@ MIDDLEWARE = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'accounts.authentication.EmailAuthentication'
+    'accounts.authentication.EmailAuthentication',
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
 ]
 
 ROOT_URLCONF = 'mindspark.urls'
@@ -159,6 +165,8 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+
 
 
 # Email Backend
@@ -171,3 +179,6 @@ EMAIL_USE_SSL = True
 
 
 PASSWORD_RESET_TIMEOUT = 144000
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1045514321901-7mquh536q2r0lf0nveuoo9k7p3uohl4r.apps.googleusercontent.com' # Google Client ID
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Google Client Secret

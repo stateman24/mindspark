@@ -24,7 +24,8 @@ SECRET_KEY = 'django-insecure-bgjj_a**t_ch%uwn#@bi(3be6%%1!8f093k6p2@woh$rr2k_df
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["mindspark.com", "localhost",  "127.0.0.1"]
+
 
 NPM_BIN_PATH = 'npm.cmd'
 
@@ -165,7 +166,7 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER =  "ajibewadannyboi@gmail.com"
 EMAIL_PORT = 465
-EMAIL_PASSWORD = "kome owdg jiox mxxt"
+EMAIL_HOST_PASSWORD = "kome owdg jiox mxxt"
 EMAIL_USE_SSL = True
 
 

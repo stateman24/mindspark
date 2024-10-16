@@ -5,7 +5,7 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model
 # imports for email verification
 from django.contrib import messages
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 from .token import account_activation_token
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
@@ -14,6 +14,8 @@ from django.template.loader import get_template
 from django.contrib.auth import login
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
 
 User = get_user_model()
 
@@ -37,18 +39,20 @@ class RegisterUser(FormView):
     
     def send_verification_email(self, user, to_email):
         current_site = get_current_site(self.request)
-        subject = "Activate your account"
-        message = render_to_string("activate_email.html", {
+        email_context = {
             "user": user.username,
             "domain" : current_site.domain,
             "uid": urlsafe_base64_encode(force_bytes(user.pk)),
             "token": account_activation_token.make_token(user),
-        })
-        email = EmailMessage(subject, message, to=[to_email])
-        if email.send():
-            print("Email Sent")
-        else:
-            print("Email not sent")
+        }
+        subject = "Activate your account"
+        message = render_to_string(template_name="activate_email.html", context=email_context)
+        html_message = strip_tags(message)
+        email = send_mail(subject=subject, 
+                          message=html_message, 
+                          from_email= settings.EMAIL_HOST_USER, 
+                          recipient_list=[to_email], 
+                          html_message=message)
         
 
 def activate_account(request, uidb64, token):

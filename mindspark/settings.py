@@ -83,11 +83,13 @@ SOCIAL_AUTH_PIPELINE = [
     'social_core.pipeline.social_auth.auth_allowed',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
+    'accounts.authentication.check_user_exists',
     'social_core.pipeline.user.create_user',
     'accounts.authentication.create_profile',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.user.user_details',
+    
 ]
 
 ROOT_URLCONF = 'mindspark.urls'

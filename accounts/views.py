@@ -21,14 +21,20 @@ from django.conf import settings
 
 User = get_user_model()
 
-def index(request):
-    if request.user.is_authenticated:
-        if request.user.is_active:
-            messages.success(request, "Your have verified your email")
-        else:
-            messages.warning(request, "Please verify you email adderess")
-    return render(request, "accounts/index.html")
+class Index(LoginRequiredMixin,  TemplateView):
+    template_name = 'accounts/index.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user"] = self.request.user
+        if self.request.user.is_authenticated:
+            if self.request.user.is_active:
+                messages.success(self.request, "Your have verified your email")
+            else:
+                messages.warning(self.request, "Please verify you email adderess")
+        return context
+
+# verify user email
 class Verify_Email(LoginRequiredMixin, TemplateView):
     template_name = "verify_email.html"
 

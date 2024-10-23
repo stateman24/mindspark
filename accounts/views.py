@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterUser
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model
 from .models import Profile
@@ -12,7 +13,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import get_template
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -28,25 +29,36 @@ def index(request):
             messages.warning(request, "Please verify you email adderess")
     return render(request, "accounts/index.html")
 
+class Verify_Email(LoginRequiredMixin, TemplateView):
+    template_name = "verify_email.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user"] = self.request.user
+        return context
+    
+
 # register User
 class RegisterUser(FormView):
     template_name: str = "accounts/register.html"
     form_class: RegisterUser = RegisterUser
-    success_url: str = reverse_lazy("accounts:login")
+    success_url: str = reverse_lazy("accounts:verify-email")
 
     def form_valid(self, form):
-        user = form.save(commit=False)
-        user.username = form.cleaned_data["email"]  # set username to email address
-        user.set_password(form.cleaned_data["password"]) # set user password
-        user.is_active = False # deactivate account until email verification
-        user.save()
-        Profile.objects.create(user=user) # create a proile for the new user
-        # send email verification
-        send_verification_email(self.request, user, form.cleaned_data["email"])
+        new_user = form.save(commit=False)
+        new_user.username = form.cleaned_data["email"]  # set username to email address
+        new_user.set_password(form.cleaned_data["password"]) # set user password
+        new_user.is_active = False # deactivate account until email verification
+        new_user.save()
+        Profile.objects.create(user=new_user) # create a proile for the new user
+        User = authenticate(self.request, username=new_user.username, password=new_user.password)
+        if User is not None:
+           login(self.request, User)
         return redirect(self.get_success_url())
     
 
-def send_verification_email(request, user, to_email):
+def send_verification_email(request, user_id):
+    user = User.objects.get(pk=user_id)
     current_site = get_current_site(request)
     email_context = {
         "user": user.username,
@@ -60,8 +72,9 @@ def send_verification_email(request, user, to_email):
     email = send_mail(subject=subject, 
                         message=html_message, 
                         from_email= settings.EMAIL_HOST_USER, 
-                        recipient_list=[to_email], 
+                        recipient_list=[user.email], 
                         html_message=message)
+    return redirect("accounts:verify-email")
         
 
 def activate_account(request, uidb64, token):

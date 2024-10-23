@@ -1,0 +1,14 @@
+{% extends "auth_base.html" %}
+
+{% block title %}
+    Verify your Email
+{% endblock title %}
+
+{% block content %}
+<div class="block">
+    <h4>Hi {{ user.username }},</h4> 
+    <p>It looks like you haven't verified your email address yet. To continue using all features of MindSpark, please verify your email by clicking the button below.</p>
+    <a href="{% url "accounts:send-email-verification" user.id %}">Send Verification Mail</a>
+</div>
+
+{% endblock content %}

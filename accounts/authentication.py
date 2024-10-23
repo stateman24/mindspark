@@ -1,14 +1,5 @@
 from django.contrib.auth.models import User
 from .models import Profile
-from .views import send_verification_email
-
-
-def social_email_verification(request, response, user, *args, **kwrags):
-        email = response.get("email") # get the user email
-        if user:
-            user.is_active = False
-            send_verification_email(request, user, email)        
-
 def create_profile(backend, user, *args, **kwargs):
     """
         Create User Profile when  user is authenticated via social media

@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 
 
-
 class  Profile(models.Model):
     user = models.OneToOneField(User, related_name="userProfile", on_delete=models.CASCADE)
     date_of_birth  = models.DateField(null=True, validators=[MinValueValidator(limit_value=datetime.date.today() - datetime.timedelta(days=365*100))])

@@ -51,16 +51,16 @@ class RegisterUser(forms.ModelForm):
     
 
 class EditProfileForm(forms.ModelForm):
-    date_of_birth = forms.DateField(widget=forms.DateInput)
+    date_of_birth = forms.DateField(widget=forms.SelectDateWidget())
     city = forms.CharField(widget=forms.TextInput)
     phone_number = forms.CharField(widget=forms.TextInput)
     address = forms.CharField(widget=forms.TextInput)
     profile_pic = forms.FileField(widget=forms.FileInput)
     class Meta:
         model = User
-        fields: tuple[Literal['']] = ("first_name, last_name, date_of_birth, username, phone_number, city, address",)
+        fields: tuple[Literal['']] = ('first_name', 'last_name', 'date_of_birth', 'username', 'phone_number', 'city', 'address',)
     
-    def save(self, commit = True) -> User:
+    def save(self, commit = True):
         user =  super().save(commit=False)
 
         if commit:

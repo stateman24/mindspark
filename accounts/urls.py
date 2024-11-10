@@ -2,7 +2,7 @@ from typing import Any
 from django.urls import path
 import django.contrib.auth.views as auth_view
 from .forms import LoginForm
-from .views import Index, RegisterUser, activate_account, Verify_Email, send_verification_email
+from .views import Index, RegisterUser, activate_account, Verify_Email, send_verification_email, EditProfile
 
 
 app_name: str = 'accounts'
@@ -13,7 +13,11 @@ urlpatterns: list[Any] = [
     path("logout/", auth_view.LogoutView.as_view(), name="logout"),
     path("signup/", RegisterUser.as_view(), name='signup'),
     path("index/", Index.as_view(), name="index"),
+    path("editprofile/", EditProfile.as_view(), name="editprofile"),
+    
+    # verify email url path
     path("verifyEmail/", Verify_Email.as_view(), name="verify-email"),
     path("send_email_verification/<int:user_id>", send_verification_email, name="send-email-verification"),
-    path("verifyEmail/<uidb64>/<token>/", activate_account, name="activate")
+    path("verifyEmail/<uidb64>/<token>/", activate_account, name="activate"),
+
 ]

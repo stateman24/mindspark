@@ -1,15 +1,9 @@
-{% extends 'auth_base.html' %}
+{% extends 'auth_base2.html' %}
 
 {% block title %}
 	Index
 {% endblock %}
 
 {% block content %}
-	{% if messages %}
-		{% for message in messages  %}
-			<h2> {{ message }} </h2>
-		{% endfor %}
-	{% endif %}
-
-	<h1>Hello {{ request.user.username }}</h1>
+	{% include "accounts/includes/sidebar.html" %}
 {% endblock %}

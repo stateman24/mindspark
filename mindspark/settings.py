@@ -155,6 +155,7 @@ USE_TZ = True
 
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "accounts:index"
+LOGOUT_REDIRECT_URL = "accounts:login"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -174,7 +175,7 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.ScryptPasswordHasher',
 ]
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type

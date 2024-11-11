@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms import CharField
 from .models import Profile
+from django.contrib.admin.widgets import AdminDateWidget
 import re
 
 
@@ -51,7 +52,7 @@ class RegisterUser(forms.ModelForm):
     
 
 class EditProfileForm(forms.ModelForm):
-    date_of_birth = forms.DateField(widget=forms.SelectDateWidget())
+    date_of_birth = forms.DateField(widget=AdminDateWidget())
     city = forms.CharField(widget=forms.TextInput)
     phone_number = forms.CharField(widget=forms.TextInput)
     address = forms.CharField(widget=forms.TextInput)

@@ -4,6 +4,13 @@
     Edit Profile
 {% endblock title %}
 
+
+
 {% block content %}
-    <p> {{form.as_p}} </p>
+    <div class="flex">
+        {% include "accounts/includes/sidebar.html" %}
+        <div>
+            <p> {{form.as_p}} </p>
+        </div>
+    </div>
 {% endblock content %}

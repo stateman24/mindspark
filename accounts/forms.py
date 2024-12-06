@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms import CharField
 from .models import Profile
-from django.contrib.admin.widgets import AdminDateWidget
+from django.forms.models import inlineformset_factory
 import re
 
 
@@ -52,31 +52,39 @@ class RegisterUser(forms.ModelForm):
     
 
 class EditProfileForm(forms.ModelForm):
-    date_of_birth = forms.DateField(widget=AdminDateWidget())
+    date_of_birth = forms.DateField()
     city = forms.CharField(widget=forms.TextInput)
     phone_number = forms.CharField(widget=forms.TextInput)
     address = forms.CharField(widget=forms.TextInput)
-    profile_pic = forms.FileField(widget=forms.FileInput)
+    profile_pic = forms.ImageField()
+    
     class Meta:
         model = User
-        fields: tuple[Literal['']] = ('first_name', 'last_name', 'date_of_birth', 'username', 'phone_number', 'city', 'address',)
+        fields: tuple[Literal['']] = ('first_name', 'last_name', 'username', 'date_of_birth', 'city', 'phone_number', 'address', 'profile_pic')
     
+    def __init__(self, *args, **kwargs):
+        self.profile_instance = kwargs.pop('profile_instance', None)
+        super().__init__(*args, **kwargs) # initiate superclass constructor
+        # pass profile instance if available
+        if self.profile_instance:
+            self.fields["date_of_birth"].initial = self.profile_instance.date_of_birth
+            self.fields["city"].initial = self.profile_instance.city
+            self.fields["address"].initial = self.profile_instance.address
+            self.fields["profile_pic"].initial = self.profile_instance.profile_pic
+            self.fields["phone_number"].initial = self.profile_instance.phone_number
+
     def save(self, commit = True):
         user =  super().save(commit=False)
 
+        if self.profile_instance:
+            self.profile_instance.date_of_birth = self.cleaned_data["date_of_birth"]
+            self.profile_instance.city = self.cleaned_data["city"]
+            self.profile_instance.address = self.cleaned_data["address"]
+            self.profile_instance.profile_pic = self.cleaned_data["profile_pic"]
+            self.profile_instance.phone_number = self.cleaned_data["phone_number"]
+
         if commit:
-            user.save()
+            self.profile_instance.save()
 
-            Profile.objects.update_or_create(
-                user = user,
-                defaults= {
-                    'date_of_birth': self.cleaned_data.get('date_of_birth'),
-                    'city': self.cleaned_data.get("city"),
-                    'phone_number': self.cleaned_data.get("phone_number"),
-                    'address' : self.cleaned_data.get("address"),
-                    'profile_pic': self.cleaned_data.get("profile_pic")
-                }
-            )
         return user
-
 

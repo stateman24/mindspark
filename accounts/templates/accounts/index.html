@@ -6,4 +6,9 @@
 
 {% block content %}
 	{% include "accounts/includes/sidebar.html" %}
+	<div>
+		<h1><a href="{% url "accounts:editprofile" %}">Edit Profile</a></h1>
+		<p>Hello buddy</p>
+	</div>
+
 {% endblock %}

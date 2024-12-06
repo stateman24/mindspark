@@ -2,7 +2,7 @@ from typing import Any
 from django.urls import path
 import django.contrib.auth.views as auth_view
 from .forms import LoginForm
-from .views import Index, RegisterUser, activate_account, Verify_Email, send_verification_email, EditProfile
+from .views import *
 
 
 app_name: str = 'accounts'

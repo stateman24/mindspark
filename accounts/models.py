@@ -11,7 +11,7 @@ class  Profile(models.Model):
     city = models.CharField(max_length=225)
     phone_number = models.CharField(max_length=11, null=True)
     address = models.CharField(max_length=500)
-    profile_pic = models.ImageField(upload_to="profile_pic/", blank=True)
+    profile_pic = models.ImageField(upload_to="profile_pic/", blank=True, default="profile_pic/no-profile.jpg")
 
     class Meta:
         ordering: tuple[Literal['user']] = ("user",)

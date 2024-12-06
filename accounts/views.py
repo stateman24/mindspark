@@ -1,8 +1,8 @@
 from typing import Any
 from django.contrib.auth.models import AbstractUser
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .forms import RegisterUser, EditProfileForm
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model
@@ -20,6 +20,7 @@ from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpRespons
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
+
 User: AbstractUser = get_user_model()
 
 
@@ -66,16 +67,19 @@ class RegisterUser(FormView):
         return redirect(self.get_success_url())
     
 
-class EditProfile(LoginRequiredMixin, FormView):
+class EditProfile(LoginRequiredMixin, UpdateView):
+    model = User
     template_name = "accounts/editprofile.html"
     form_class = EditProfileForm
     success_url = reverse_lazy("accounts:index")
 
-    def form_valid(self, form):
-        edit_form = form(instance=self.request.user, data=self.request.POST, files=self.request.FILES)
-        if edit_form.is_valid:
-            edit_form.save()
-        return redirect(self.success_url)
+    def get_object(self, queryset = None):
+        return self.request.user
+    
+    def get_form_kwargs(self):
+        kwargs= super().get_form_kwargs()
+        kwargs["profile_instance"] = Profile.objects.get(user=self.request.user)
+        return kwargs
 
 
 def send_verification_email(request, user_id) -> HttpResponseRedirect | HttpResponsePermanentRedirect:

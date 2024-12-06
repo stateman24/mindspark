@@ -1,7 +1,7 @@
 from typing import Any
 from django.contrib.auth.models import AbstractUser
 from django.shortcuts import get_object_or_404, render, redirect
-from .forms import RegisterUser, EditProfileForm
+from .forms import RegisterUser, EditProfileForm, EmailEditForm
 from django.views.generic import FormView, TemplateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
@@ -80,6 +80,15 @@ class EditProfile(LoginRequiredMixin, UpdateView):
         kwargs= super().get_form_kwargs()
         kwargs["profile_instance"] = Profile.objects.get(user=self.request.user)
         return kwargs
+
+class ChangeEmail(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = "accounts/changeEmail.html"
+    form_class = EmailEditForm
+    success_url = reverse_lazy("accounts:index")
+
+    def get_object(self, queryset = None):
+        return self.request.user
 
 
 def send_verification_email(request, user_id) -> HttpResponseRedirect | HttpResponsePermanentRedirect:

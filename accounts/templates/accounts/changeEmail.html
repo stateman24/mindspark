@@ -1,0 +1,29 @@
+{% extends "auth_base2.html" %}
+
+{% block title %}
+    Email Address Change
+{% endblock title %}
+
+{% block content %}
+    <div class="flex gap-[1rem]">
+        {% include "accounts/includes/sidebar.html" %}
+        <div class="flex flex-col w-[992px] h-[600px] bg-bg_col px-12 py-8 rounded-[10px] space-y-8">
+            <h1 class="text-4xl font-semibold">Change Email Address</h1>
+            <form class=" px-[1.5rem] mt-[2rem]" action="{% url "accounts:change_email" %}" method="post">
+                <div>
+                    <p class="text-lg font-semibold text-font_col">Current Email Address: <span class="text-base font-normal text-font_col">{{ user.email }}</span></p>
+                </div>
+                {% csrf_token %}
+                <div class="flex flex-col">
+                    <label for="new-email">New Email Address</label>
+                    {{ form.new_email }}
+                </div>
+                <div class="flex flex-col">
+                    <label for="confirm-email">Confirm Email Address</label>
+                    {{ form.confirm_email }}
+                </div>
+                <button class="w-[126px] h-10 p-3 bg-[#ffa028]/60 rounded-lg justify-center items-center gap-2 inline-flex col-start-2 self-end ml-auto" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

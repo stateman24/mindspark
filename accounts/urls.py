@@ -14,7 +14,7 @@ urlpatterns: list[Any] = [
     path("signup/", RegisterUser.as_view(), name='signup'),
     path("index/", Index.as_view(), name="index"),
     path("editprofile/", EditProfile.as_view(), name="editprofile"),
-    
+    path("changeEmail/", ChangeEmail.as_view(), name="change_email"),
     # verify email url path
     path("verifyEmail/", Verify_Email.as_view(), name="verify-email"),
     path("send_email_verification/<int:user_id>", send_verification_email, name="send-email-verification"),

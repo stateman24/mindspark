@@ -29,7 +29,7 @@ class RegisterUser(forms.ModelForm):
         'id': "password",
         'class': "border rounded-lg border-primary px-[1rem] cursor-pointer focus:border-hover_col focus:ring-1 focus:ring-primary focus:outline-none"
     }))
-    email = forms.CharField(widget=forms.TextInput(attrs={
+    email = forms.CharField(widget=forms.EmailInput(attrs={
         'id': "email",
         'class': "border rounded-lg border-primary px-[1rem] cursor-pointer focus:border-hover_col focus:ring-1 focus:ring-primary focus:outline-none"
     }))
@@ -88,3 +88,45 @@ class EditProfileForm(forms.ModelForm):
 
         return user
 
+
+class EmailEditForm(forms.ModelForm):
+    new_email = forms.CharField(widget=forms.EmailInput(attrs={
+        "id": "new-email"
+    }))
+    confirm_email = forms.CharField(widget=forms.EmailInput(attrs={
+        "id": "confirm-email"
+    }))
+
+    class Meta:
+        model = User
+        fields = ("new_email" ,"confirm_email",)
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        confirm_email = self.cleaned_data.get('confirm_email')
+        email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+        # check if the email is valid
+        if not re.match(email_regex, new_email) and re.match(email_regex, confirm_email):
+            raise forms.ValidationError("Enter a valid Email address")
+
+        if new_email != confirm_email:
+            raise forms.ValidationError("Enter the correct Email")
+
+        # check if the email already exists
+        if User.objects.filter(email=new_email).exists():
+            raise forms.ValidationError("This email already exists")
+        
+        return email
+    
+    def save(self, commit = True):
+        user =  super().save(commit=False)
+
+        if self.clean_email:
+            user.email = self.cleaned_data["new_email"]
+        
+        if commit:
+            user.save()
+        return user
+    
+
+    

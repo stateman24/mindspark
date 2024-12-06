@@ -1,7 +1,7 @@
 from typing import Any
 from django.urls import path
 import django.contrib.auth.views as auth_view
-from .forms import LoginForm
+from .forms import LoginForm, ChangePasswordForm
 from .views import *
 
 
@@ -15,6 +15,7 @@ urlpatterns: list[Any] = [
     path("index/", Index.as_view(), name="index"),
     path("editprofile/", EditProfile.as_view(), name="editprofile"),
     path("changeEmail/", ChangeEmail.as_view(), name="change_email"),
+    path("passwordChange/", auth_view.PasswordChangeView.as_view(template_name="accounts/changePassword.html", form_class=ChangePasswordForm, success_url="accounts:index"), name="passwordChange"),
     # verify email url path
     path("verifyEmail/", Verify_Email.as_view(), name="verify-email"),
     path("send_email_verification/<int:user_id>", send_verification_email, name="send-email-verification"),

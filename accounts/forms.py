@@ -1,6 +1,6 @@
 from typing import Literal, Type
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.forms import CharField
 from .models import Profile
@@ -129,4 +129,15 @@ class EmailEditForm(forms.ModelForm):
         return user
     
 
-    
+class ChangePasswordForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        "id": "new-password"
+    }))
+
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={
+        "id": "new-password"
+    }))
+
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        "id": "confirm-password"
+    }))

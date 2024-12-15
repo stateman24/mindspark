@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -195,6 +195,6 @@ EMAIL_USE_SSL = True
 
 PASSWORD_RESET_TIMEOUT = 144000
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1045514321901-7mquh536q2r0lf0nveuoo9k7p3uohl4r.apps.googleusercontent.com' # Google Client ID
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Google Client Secret
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY =  os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY") #'1045514321901-7mquh536q2r0lf0nveuoo9k7p3uohl4r.apps.googleusercontent.com'  Google Client ID
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET") #'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' Google Client Secret
 

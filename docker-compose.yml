@@ -1,0 +1,16 @@
+name: ${COMPOSE_PROJECT_NAME}
+services:
+  app:
+    build: .
+    environment:
+      - SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=${SOCIAL_AUTH_GOOGLE_OAUTH2_KEY}
+      - SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=${SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET}
+      - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
+      - CERT_KEY=${CERT_KEY}
+      - PRIVATE_KEY=${PRIVATE_KEY}
+    volumes:
+      - ./demo/:/mindspark
+    ports:
+      - 8000:8000
+    image: app:mindspark
+    command: python manage.py runsever_plus --cert-file ${CERT_KEY} --key-file ${PRIVATE_KEY} 0.0.0.0:8000
